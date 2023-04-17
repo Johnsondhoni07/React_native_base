@@ -16,6 +16,7 @@ import {
 import TextInput from '../Utils/Components/TextInput';
 import Button from '../Utils/Components/Button';
 import {theme} from '../Core/Theme';
+import {DefaultText} from '../Utils/Components/DefaultText';
 
 type Props = {
   navigation: any;
@@ -48,7 +49,10 @@ const RegisterScreen = ({navigation}: Props) => {
           height: '100%',
           backgroundColor: theme?.colors?.background,
           paddingHorizontal: responsiveWidth(15),
+          justifyContent: 'center',
+          alignItems: 'center',
         }}>
+        <DefaultText>Register</DefaultText>
         <TextInput
           label="Name"
           returnKeyType="next"

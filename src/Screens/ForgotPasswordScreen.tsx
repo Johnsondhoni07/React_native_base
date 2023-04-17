@@ -13,6 +13,7 @@ import {theme} from '../Core/Theme';
 import {emailValidator, responsiveHeight, responsiveWidth} from '../Utils/utis';
 import {AppStackParamList} from '../Navigator/NavigatorDTO';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {DefaultText} from '../Utils/Components/DefaultText';
 
 type Props = {
   navigation: NativeStackNavigationProp<
@@ -42,7 +43,11 @@ const ForgotPasswordScreen = ({navigation}: Props) => {
           height: '100%',
           backgroundColor: theme?.colors?.background,
           paddingHorizontal: responsiveWidth(15),
+          justifyContent: 'center',
+          alignItems: 'center',
         }}>
+        <DefaultText>Forgot Password</DefaultText>
+
         <TextInput
           label="E-mail address"
           returnKeyType="done"

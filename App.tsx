@@ -10,12 +10,13 @@ function App(): JSX.Element {
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    flex: 1,
   };
 
   return (
-    // <SafeAreaView style={backgroundStyle}>
-    <AppNavigationContainer />
-    // </SafeAreaView>
+    <SafeAreaView style={backgroundStyle}>
+      <AppNavigationContainer />
+    </SafeAreaView>
   );
 }
 

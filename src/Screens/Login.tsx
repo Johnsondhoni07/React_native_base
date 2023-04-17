@@ -1,5 +1,5 @@
-import React from 'react';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack/lib/typescript/src/types';
+import React from 'react';
 import {
   Keyboard,
   StyleSheet,
@@ -11,13 +11,13 @@ import {
 import {theme} from '../Core/Theme';
 import {AppStackParamList} from '../Navigator/NavigatorDTO';
 import Button from '../Utils/Components/Button';
+import {DefaultText} from '../Utils/Components/DefaultText';
 import TextInput from '../Utils/Components/TextInput';
 import {
   emailValidator,
   passwordValidator,
   responsiveWidth,
 } from '../Utils/utis';
-import { RouteProp } from '@react-navigation/native';
 
 type Props = {
   navigation: NativeStackNavigationProp<AppStackParamList, 'LoginScreen'>;
@@ -37,6 +37,7 @@ const LoginScreen = ({navigation}: Props) => {
       setPassword({...password, error: passwordError});
       return;
     }
+    navigation?.navigate('TabHome', {screen: 'Home'});
   };
 
   return (
@@ -46,7 +47,10 @@ const LoginScreen = ({navigation}: Props) => {
           height: '100%',
           backgroundColor: theme?.colors?.background,
           paddingHorizontal: responsiveWidth(15),
+          justifyContent: 'center',
+          alignItems: 'center',
         }}>
+        <DefaultText>Login</DefaultText>
         <TextInput
           label="Email"
           returnKeyType="next"
