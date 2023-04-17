@@ -1,48 +1,21 @@
-import React, {FunctionComponent} from 'react';
+import {AppStackRoutesType} from '../Navigator/NavigatorDTO';
+import ForgotPasswordScreen from '../Screens/ForgotPasswordScreen';
 import LoginScreen from '../Screens/Login';
-import {
-  NativeStackNavigationEventMap,
-  NativeStackNavigationOptions,
-} from '@react-navigation/native-stack';
 import RegisterScreen from '../Screens/RegisterScreen';
-import {
-  ParamListBase,
-  RouteConfig,
-  StackNavigationState,
-} from '@react-navigation/native';
-import {stackNavigationType} from '../Navigator/AppNavigationContainer';
 
-export type StackRoutesType<ParamList extends ParamListBase> = Array<
-  RouteConfig<
-    ParamList,
-    keyof ParamList,
-    StackNavigationState<ParamList>,
-    NativeStackNavigationOptions,
-    NativeStackNavigationEventMap
-  >
->;
-
-// becomes one line typings for each stack
-// type OtherStackRoutesType = StackRoutesType<OtherStackParamList>;
-// type AnotherStackRoutesType = StackRoutesType<AnotherStackParamList>;
-
-// type AppStackRoutesType = StackRoutesType<stackNavigationType>;
-
-export const stackDetails =
-  // Array<{
-  //   name: string;
-  //   component: any;
-  //   options: NativeStackNavigationOptions;
-  // }>
-  [
-    {
-      name: 'LoginScreen',
-      component: LoginScreen,
-      options: {animation: 'default'},
-    },
-    {
-      name: 'RegisterScreen',
-      component: RegisterScreen,
-      options: {},
-    },
-  ];
+export const stackDetails: Array<AppStackRoutesType> = [
+  {
+    name: 'LoginScreen',
+    component: LoginScreen,
+    // options: {animation: 'slide_from_right', animationDuration: 5000},
+  },
+  {
+    name: 'RegisterScreen',
+    component: RegisterScreen,
+    // options: {animation: 'slide_from_left', animationDuration: 5000},
+  },
+  {
+    name: 'ForgotPasswordScreen',
+    component: ForgotPasswordScreen,
+  },
+];

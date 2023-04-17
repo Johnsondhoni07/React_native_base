@@ -1,4 +1,5 @@
-import React, {memo, useState} from 'react';
+import React from 'react';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack/lib/typescript/src/types';
 import {
   Keyboard,
   StyleSheet,
@@ -8,6 +9,7 @@ import {
   View,
 } from 'react-native';
 import {theme} from '../Core/Theme';
+import {AppStackParamList} from '../Navigator/NavigatorDTO';
 import Button from '../Utils/Components/Button';
 import TextInput from '../Utils/Components/TextInput';
 import {
@@ -15,14 +17,16 @@ import {
   passwordValidator,
   responsiveWidth,
 } from '../Utils/utis';
+import { RouteProp } from '@react-navigation/native';
 
 type Props = {
-  navigation: any;
+  navigation: NativeStackNavigationProp<AppStackParamList, 'LoginScreen'>;
+  // route:RouteProp
 };
 
 const LoginScreen = ({navigation}: Props) => {
-  const [email, setEmail] = useState({value: '', error: ''});
-  const [password, setPassword] = useState({value: '', error: ''});
+  const [email, setEmail] = React.useState({value: '', error: ''});
+  const [password, setPassword] = React.useState({value: '', error: ''});
 
   const _onLoginPressed = () => {
     const emailError = emailValidator(email.value);
@@ -33,8 +37,6 @@ const LoginScreen = ({navigation}: Props) => {
       setPassword({...password, error: passwordError});
       return;
     }
-
-    // navigation.navigate('Dashboard');
   };
 
   return (
