@@ -1,9 +1,8 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React from 'react';
-import {Text, View} from 'react-native';
-import {TabParamList} from './NavigatorDTO';
 import HomeScreen from '../Screens/HomeScreen';
 import PersonalScreen from '../Screens/PersonalScreen';
+import {TabParamList} from './NavigatorDTO';
 
 const TabNavigation = () => {
   const Tab = createBottomTabNavigator<TabParamList>();
@@ -20,6 +19,9 @@ const TabNavigation = () => {
         // options={{tabBarStyle: {display: 'none'}}}
       />
       <Tab.Screen name="Personal" component={PersonalScreen} />
+      {/* {tabBarRoutes.map(stackRoute => {
+        return <Tab.Screen key={stackRoute.name} {...stackRoute} />;
+      })} */}
     </Tab.Navigator>
   );
 };

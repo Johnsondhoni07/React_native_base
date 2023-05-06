@@ -4,13 +4,18 @@ import {
   NavigatorScreenParams,
   RouteConfig,
   StackNavigationState,
+  TabNavigationState,
 } from '@react-navigation/native';
 import {
   NativeStackNavigationEventMap,
   NativeStackNavigationOptions,
   NativeStackScreenProps,
 } from '@react-navigation/native-stack';
-import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
+import {
+  BottomTabNavigationEventMap,
+  BottomTabNavigationOptions,
+  BottomTabScreenProps,
+} from '@react-navigation/bottom-tabs';
 
 //Add Tab Screens Here
 export type TabParamList = {
@@ -32,6 +37,14 @@ export type AppStackRoutesType = RouteConfig<
   StackNavigationState<AppStackParamList>,
   NativeStackNavigationOptions,
   NativeStackNavigationEventMap
+>;
+
+export type AppBottomTabRoutesType = RouteConfig<
+  TabParamList,
+  keyof TabParamList,
+  TabNavigationState<TabParamList>,
+  BottomTabNavigationOptions,
+  BottomTabNavigationEventMap
 >;
 
 export type HomeScreenNavigationProp = CompositeScreenProps<
