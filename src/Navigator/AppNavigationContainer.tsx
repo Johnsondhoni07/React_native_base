@@ -6,7 +6,7 @@ import {AppStackParamList} from './NavigatorDTO';
 
 export const AppNavigationContainer = () => {
   const Stack = createNativeStackNavigator<AppStackParamList>();
-  
+
   return (
     <NavigationContainer>
       <Stack.Navigator
