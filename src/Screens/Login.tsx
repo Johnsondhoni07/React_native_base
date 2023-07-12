@@ -18,6 +18,8 @@ import {
   passwordValidator,
   responsiveWidth,
 } from '../Utils/utis';
+import {StatusBar} from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 type Props = {
   navigation: NativeStackNavigationProp<AppStackParamList, 'LoginScreen'>;
@@ -27,6 +29,7 @@ type Props = {
 const LoginScreen = ({navigation}: Props) => {
   const [email, setEmail] = React.useState({value: '', error: ''});
   const [password, setPassword] = React.useState({value: '', error: ''});
+  const insets = useSafeAreaInsets();
 
   const _onLoginPressed = () => {
     const emailError = emailValidator(email.value);
@@ -43,53 +46,70 @@ const LoginScreen = ({navigation}: Props) => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View
-        style={{
-          height: '100%',
-          backgroundColor: theme?.colors?.background,
-          paddingHorizontal: responsiveWidth(15),
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <DefaultText>Login</DefaultText>
-        <TextInput
-          label="Email"
-          returnKeyType="next"
-          value={email.value}
-          onChangeText={(text: string) => setEmail({value: text, error: ''})}
-          error={!!email.error}
-          errorText={email.error}
-          autoCapitalize="none"
-          textContentType="emailAddress"
-          keyboardType="email-address"
+        style={[
+          {
+            paddingTop: insets.top,
+            paddingBottom: insets.bottom,
+            paddingLeft: insets.left,
+            paddingRight: insets.right,
+          },
+        ]}>
+        <StatusBar
+          barStyle="dark-content"
+          backgroundColor={theme?.colors?.background}
+          animated={true}
+          showHideTransition={'slide'}
+          translucent
         />
+        <View
+          style={{
+            height: '100%',
+            backgroundColor: theme?.colors?.background,
+            paddingHorizontal: responsiveWidth(15),
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <DefaultText>Login</DefaultText>
+          <TextInput
+            label="Email"
+            returnKeyType="next"
+            value={email.value}
+            onChangeText={(text: string) => setEmail({value: text, error: ''})}
+            error={!!email.error}
+            errorText={email.error}
+            autoCapitalize="none"
+            textContentType="emailAddress"
+            keyboardType="email-address"
+          />
 
-        <TextInput
-          label="Password"
-          returnKeyType="done"
-          value={password.value}
-          onChangeText={text => setPassword({value: text, error: ''})}
-          error={!!password.error}
-          errorText={password.error}
-          secureTextEntry
-        />
+          <TextInput
+            label="Password"
+            returnKeyType="done"
+            value={password.value}
+            onChangeText={text => setPassword({value: text, error: ''})}
+            error={!!password.error}
+            errorText={password.error}
+            secureTextEntry
+          />
 
-        <View style={styles.forgotPassword}>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('ForgotPasswordScreen')}>
-            <Text style={styles.label}>Forgot your password?</Text>
-          </TouchableOpacity>
-        </View>
+          <View style={styles.forgotPassword}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('ForgotPasswordScreen')}>
+              <Text style={styles.label}>Forgot your password?</Text>
+            </TouchableOpacity>
+          </View>
 
-        <Button mode="contained" onPress={_onLoginPressed}>
-          Login
-        </Button>
+          <Button mode="contained" onPress={_onLoginPressed}>
+            Login
+          </Button>
 
-        <View style={styles.row}>
-          <Text style={styles.label}>Don’t have an account? </Text>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('RegisterScreen')}>
-            <Text style={styles.link}>Sign up</Text>
-          </TouchableOpacity>
+          <View style={styles.row}>
+            <Text style={styles.label}>Don’t have an account? </Text>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('RegisterScreen')}>
+              <Text style={styles.link}>Sign up</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </TouchableWithoutFeedback>

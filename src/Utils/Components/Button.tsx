@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: responsiveScale(15),
     lineHeight: responsiveHeight(26),
+    width: '90%',
   },
 });
 
