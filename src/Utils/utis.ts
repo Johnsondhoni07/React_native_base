@@ -1,4 +1,5 @@
 import {Dimensions} from 'react-native';
+import {Platform} from 'react-native';
 
 const {width, height} = Dimensions.get('window');
 
@@ -32,4 +33,8 @@ export const nameValidator = (name: string) => {
 
   return '';
 };
+
+export const isAndroid = Platform.OS === 'android';
+export const isIos = Platform.OS === 'ios';
+
 // export {responsiveWidth, responsiveHeight, moderateScale};

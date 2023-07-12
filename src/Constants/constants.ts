@@ -8,8 +8,13 @@ import HomeScreen from '../Screens/HomeScreen';
 import LoginScreen from '../Screens/Login';
 import PersonalScreen from '../Screens/PersonalScreen';
 import RegisterScreen from '../Screens/RegisterScreen';
+import {IntroductionAnimationScreen} from '../Screens/introduction_animation';
 
 export const authRoutes: Array<AppStackRoutesType> = [
+  {
+    name: 'IntroductionScreen',
+    component: IntroductionAnimationScreen,
+  },
   {
     name: 'LoginScreen',
     component: LoginScreen,

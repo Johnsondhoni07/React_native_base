@@ -28,6 +28,7 @@ export type AppStackParamList = {
   LoginScreen: undefined;
   RegisterScreen: undefined;
   ForgotPasswordScreen: undefined;
+  IntroductionScreen: undefined;
   TabHome: NavigatorScreenParams<TabParamList>; //For TAB Screen
 };
 
