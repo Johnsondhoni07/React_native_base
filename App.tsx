@@ -8,13 +8,8 @@ import {AppNavigationContainer} from './src/Navigator/AppNavigationContainer';
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
-  const backgroundStyle = {
-    // backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-    flex: 1,
-  };
-
   return (
-    <SafeAreaView style={backgroundStyle}>
+    <SafeAreaView style={styles.backgroundStyle}>
       <ThemeProvider>
         <AppNavigationContainer />
       </ThemeProvider>
@@ -22,6 +17,8 @@ function App(): JSX.Element {
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  backgroundStyle: {flex: 1},
+});
 
 export default App;
