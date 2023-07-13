@@ -10,7 +10,7 @@ export const AppNavigationContainer = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="IntroductionScreen"
+        initialRouteName="LoginScreen"
         screenOptions={{headerShown: false}}>
         {true
           ? authRoutes.map(stackRoute => {

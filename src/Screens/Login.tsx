@@ -1,25 +1,22 @@
-import {NativeStackNavigationProp} from '@react-navigation/native-stack/lib/typescript/src/types';
 import React from 'react';
-import {
-  Keyboard,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native';
-import {theme} from '../Core/Theme';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack/lib/typescript/src/types';
+import {Keyboard, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {useTheme} from '../Contexts/ThemeContexts/ThemeContexts';
 import {AppStackParamList} from '../Navigator/NavigatorDTO';
 import Button from '../Utils/Components/Button';
 import {DefaultText} from '../Utils/Components/DefaultText';
+import LayoutStatusBar from '../Utils/Components/LayoutStatusBar';
 import TextInput from '../Utils/Components/TextInput';
+import TouchableNoFeedBack from '../Utils/Components/TouchableNoFeedBack';
 import {
   emailValidator,
   passwordValidator,
+  responsiveHeight,
+  responsiveScale,
   responsiveWidth,
 } from '../Utils/utis';
-import {StatusBar} from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import styleTheme from './ThemeStyles';
 
 type Props = {
   navigation: NativeStackNavigationProp<AppStackParamList, 'LoginScreen'>;
@@ -27,11 +24,12 @@ type Props = {
 };
 
 const LoginScreen = ({navigation}: Props) => {
+  const {theme, toggleTheme} = useTheme();
+  const stylesTheme = styleTheme();
   const [email, setEmail] = React.useState({value: '', error: ''});
   const [password, setPassword] = React.useState({value: '', error: ''});
-  const insets = useSafeAreaInsets();
 
-  const _onLoginPressed = () => {
+  const _onLoginPressed = React.useCallback(() => {
     const emailError = emailValidator(email.value);
     const passwordError = passwordValidator(password.value);
 
@@ -41,37 +39,21 @@ const LoginScreen = ({navigation}: Props) => {
       return;
     }
     navigation?.navigate('TabHome', {screen: 'Home'});
-  };
+  }, [navigation]);
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View
-        style={[
-          {
-            paddingTop: insets.top,
-            paddingBottom: insets.bottom,
-            paddingLeft: insets.left,
-            paddingRight: insets.right,
-          },
-        ]}>
-        <StatusBar
-          barStyle="dark-content"
-          backgroundColor={theme?.colors?.background}
-          animated={true}
-          showHideTransition={'slide'}
-          translucent
-        />
+    <TouchableNoFeedBack onPress={Keyboard.dismiss}>
+      <LayoutStatusBar>
         <View
-          style={{
-            height: '100%',
-            backgroundColor: theme?.colors?.background,
-            paddingHorizontal: responsiveWidth(15),
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <DefaultText>Login</DefaultText>
+          style={[
+            styles.container,
+            {
+              backgroundColor: theme?.layoutBg,
+            },
+          ]}>
+          <DefaultText style={{color: theme.textColor}}>Login</DefaultText>
           <TextInput
-            label="Email"
+            placeholder="Email"
             returnKeyType="next"
             value={email.value}
             onChangeText={(text: string) => setEmail({value: text, error: ''})}
@@ -80,43 +62,75 @@ const LoginScreen = ({navigation}: Props) => {
             autoCapitalize="none"
             textContentType="emailAddress"
             keyboardType="email-address"
+            placeholderTextColor={theme.color}
+            style={stylesTheme?.textInputThemeStyle}
           />
 
           <TextInput
-            label="Password"
+            placeholder="Password"
             returnKeyType="done"
             value={password.value}
             onChangeText={text => setPassword({value: text, error: ''})}
             error={!!password.error}
             errorText={password.error}
             secureTextEntry
+            placeholderTextColor={theme.color}
+            style={stylesTheme?.textInputThemeStyle}
           />
 
           <View style={styles.forgotPassword}>
             <TouchableOpacity
               onPress={() => navigation.navigate('ForgotPasswordScreen')}>
-              <Text style={styles.label}>Forgot your password?</Text>
+              <Text style={{color: theme.textColor}}>
+                Forgot your password?
+              </Text>
             </TouchableOpacity>
           </View>
 
-          <Button mode="contained" onPress={_onLoginPressed}>
+          <Button
+            mode="contained"
+            style={{backgroundColor: theme.buttonColor}}
+            onPress={_onLoginPressed}>
             Login
           </Button>
 
+          <Button
+            mode="contained"
+            style={{backgroundColor: theme.buttonColor}}
+            onPress={() => toggleTheme(theme.name !== 'dark')}>
+            ChangeTheme
+          </Button>
+
           <View style={styles.row}>
-            <Text style={styles.label}>Don’t have an account? </Text>
+            <Text style={{color: theme.textColor}}>
+              Don’t have an account?{' '}
+            </Text>
             <TouchableOpacity
               onPress={() => navigation.navigate('RegisterScreen')}>
-              <Text style={styles.link}>Sign up</Text>
+              <Text style={[styles.link, {color: theme.linkColor}]}>
+                Sign up
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
-      </View>
-    </TouchableWithoutFeedback>
+      </LayoutStatusBar>
+    </TouchableNoFeedBack>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    height: '100%',
+    paddingHorizontal: responsiveWidth(15),
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  textinputStyle: {
+    borderWidth: responsiveScale(1),
+    marginTop: responsiveHeight(10),
+    borderRadius: responsiveScale(7),
+    paddingLeft: responsiveWidth(10),
+  },
   forgotPassword: {
     width: '100%',
     alignItems: 'flex-end',
@@ -126,12 +140,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 4,
   },
-  label: {
-    color: theme.colors.secondary,
-  },
   link: {
     fontWeight: 'bold',
-    color: theme.colors.primary,
   },
 });
 

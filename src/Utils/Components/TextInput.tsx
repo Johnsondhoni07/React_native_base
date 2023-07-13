@@ -1,35 +1,36 @@
 import React, {memo} from 'react';
-import {View, StyleSheet, Text} from 'react-native';
-import {TextInput as Input} from 'react-native-paper';
-import {theme} from '../../Core/Theme';
+import {View, StyleSheet, Text, TextInput as Input} from 'react-native';
+// import {TextInput as Input} from 'react-native-paper';
 import {responsiveHeight, responsiveScale, responsiveWidth} from '../utis';
+import {useTheme} from '../../Contexts/ThemeContexts/ThemeContexts';
 
-type Props = React.ComponentProps<typeof Input> & {errorText?: string};
+type Props = React.ComponentProps<typeof Input> & {
+  error?: boolean;
+  errorText?: string;
+};
 
-const TextInput = ({errorText, ...props}: Props) => (
-  <View style={styles.container}>
-    <Input
-      style={styles.input}
-      selectionColor={theme.colors.primary}
-      underlineColor="transparent"
-      mode="outlined"
-      {...props}
-    />
-    {errorText ? <Text style={styles.error}>{errorText}</Text> : null}
-  </View>
-);
+const TextInput = ({errorText, ...props}: Props) => {
+  const {theme} = useTheme();
+
+  return (
+    <View style={styles.container}>
+      <Input style={styles.input} {...props} />
+      {errorText ? (
+        <Text style={{...styles.error, color: theme?.error}}>{errorText}</Text>
+      ) : null}
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    marginVertical: responsiveHeight(12),
   },
   input: {
-    backgroundColor: theme.colors.surface,
+    // backgroundColor: theme.colors.surface,
   },
   error: {
     fontSize: responsiveScale(14),
-    color: theme.colors.error,
     paddingHorizontal: responsiveWidth(4),
     paddingTop: responsiveHeight(4),
   },

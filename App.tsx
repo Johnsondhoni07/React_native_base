@@ -4,6 +4,7 @@ import {SafeAreaView, StyleSheet, useColorScheme} from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import Login from './src/Screens/Login';
 import {AppNavigationContainer} from './src/Navigator/AppNavigationContainer';
+import {ThemeProvider} from './src/Contexts/ThemeContexts/ThemeContexts';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -15,7 +16,9 @@ function App(): JSX.Element {
 
   return (
     <SafeAreaView style={backgroundStyle}>
-      <AppNavigationContainer />
+      <ThemeProvider>
+        <AppNavigationContainer />
+      </ThemeProvider>
     </SafeAreaView>
   );
 }

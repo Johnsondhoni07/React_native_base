@@ -1,34 +1,31 @@
 import React, {memo, useState} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Keyboard,
-  StatusBar,
-} from 'react-native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {Keyboard, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {useTheme} from '../Contexts/ThemeContexts/ThemeContexts';
+import {AppStackParamList} from '../Navigator/NavigatorDTO';
+import Button from '../Utils/Components/Button';
+import {DefaultText} from '../Utils/Components/DefaultText';
+import LayoutStatusBar from '../Utils/Components/LayoutStatusBar';
+import TextInput from '../Utils/Components/TextInput';
+import TouchableNoFeedBack from '../Utils/Components/TouchableNoFeedBack';
 import {
   emailValidator,
   nameValidator,
   passwordValidator,
+  responsiveHeight,
+  responsiveScale,
   responsiveWidth,
 } from '../Utils/utis';
-import TextInput from '../Utils/Components/TextInput';
-import Button from '../Utils/Components/Button';
-import {theme} from '../Core/Theme';
-import {DefaultText} from '../Utils/Components/DefaultText';
-import TouchableNoFeedBack from '../Utils/Components/TouchableNoFeedBack';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 type Props = {
-  navigation: any;
+  navigation: NativeStackNavigationProp<AppStackParamList, 'RegisterScreen'>;
 };
 
 const RegisterScreen = ({navigation}: Props) => {
+  const {theme} = useTheme();
   const [name, setName] = useState({value: '', error: ''});
   const [email, setEmail] = useState({value: '', error: ''});
   const [password, setPassword] = useState({value: '', error: ''});
-  const insets = useSafeAreaInsets();
 
   const _onSignUpPressed = () => {
     const nameError = nameValidator(name.value);
@@ -42,49 +39,43 @@ const RegisterScreen = ({navigation}: Props) => {
       return;
     }
 
-    navigation.navigate('Dashboard');
+    navigation?.navigate('TabHome', {screen: 'Home'});
+  };
+
+  const textInputThemeStyle = {
+    backgroundColor: theme.textInputBg,
+    color: theme.textInputColor,
+    borderColor: theme.borderColor,
   };
 
   return (
-    <TouchableNoFeedBack
-      onPress={Keyboard.dismiss}
-      style={{backgroundColor: 'red', height: '100%', width: '100%', flex: 1}}>
-      <View
-        style={[
-          {
-            paddingTop: insets.top,
-            paddingBottom: insets.bottom,
-            paddingLeft: insets.left,
-            paddingRight: insets.right,
-          },
-        ]}>
-        <StatusBar
-          barStyle="dark-content"
-          backgroundColor={theme?.colors?.background}
-          animated={true}
-          showHideTransition={'slide'}
-          translucent
-        />
+    <TouchableNoFeedBack onPress={Keyboard.dismiss}>
+      <LayoutStatusBar>
         <View
           style={{
             height: '100%',
-            backgroundColor: theme?.colors?.background,
+            backgroundColor: theme?.layoutBg,
             paddingHorizontal: responsiveWidth(15),
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <DefaultText>Register</DefaultText>
+          <DefaultText style={{color: theme.textColor}}>Register</DefaultText>
           <TextInput
-            label="Name"
+            placeholder="Name"
             returnKeyType="next"
             value={name.value}
             onChangeText={text => setName({value: text, error: ''})}
             error={!!name.error}
             errorText={name.error}
+            placeholderTextColor={theme.color}
+            style={{
+              ...textInputThemeStyle,
+              ...styles.textinputStyle,
+            }}
           />
 
           <TextInput
-            label="Email"
+            placeholder="Email"
             returnKeyType="next"
             value={email.value}
             onChangeText={text => setEmail({value: text, error: ''})}
@@ -93,16 +84,26 @@ const RegisterScreen = ({navigation}: Props) => {
             autoCapitalize="none"
             textContentType="emailAddress"
             keyboardType="email-address"
+            placeholderTextColor={theme.color}
+            style={{
+              ...textInputThemeStyle,
+              ...styles.textinputStyle,
+            }}
           />
 
           <TextInput
-            label="Password"
+            placeholder="Password"
             returnKeyType="done"
             value={password.value}
             onChangeText={text => setPassword({value: text, error: ''})}
             error={!!password.error}
             errorText={password.error}
             secureTextEntry
+            placeholderTextColor={theme.color}
+            style={{
+              ...textInputThemeStyle,
+              ...styles.textinputStyle,
+            }}
           />
 
           <Button
@@ -113,21 +114,26 @@ const RegisterScreen = ({navigation}: Props) => {
           </Button>
 
           <View style={styles.row}>
-            <Text style={styles.label}>Already have an account? </Text>
+            <Text style={{color: theme.textColor}}>
+              Already have an account?{' '}
+            </Text>
             <TouchableOpacity
               onPress={() => navigation.navigate('LoginScreen')}>
-              <Text style={styles.link}>Login</Text>
+              <Text style={[styles.link, {color: theme.linkColor}]}>Login</Text>
             </TouchableOpacity>
           </View>
         </View>
-      </View>
+      </LayoutStatusBar>
     </TouchableNoFeedBack>
   );
 };
 
 const styles = StyleSheet.create({
-  label: {
-    color: theme.colors.secondary,
+  textinputStyle: {
+    borderWidth: responsiveScale(1),
+    marginTop: responsiveHeight(10),
+    borderRadius: responsiveScale(7),
+    paddingLeft: responsiveWidth(10),
   },
   button: {
     marginTop: 24,
@@ -138,7 +144,6 @@ const styles = StyleSheet.create({
   },
   link: {
     fontWeight: 'bold',
-    color: theme.colors.primary,
   },
 });
 
