@@ -3,6 +3,7 @@ import {Text, View} from 'react-native';
 import {PersonalScreenNavigationProp} from '../Navigator/NavigatorDTO';
 import Button from '../Utils/Components/Button';
 import {useTheme} from '../Contexts/ThemeContexts/ThemeContexts';
+import LayoutStatusBar from '../Utils/Components/LayoutStatusBar';
 
 const PersonalScreen = ({navigation}: PersonalScreenNavigationProp) => {
   const {theme} = useTheme();
@@ -11,15 +12,17 @@ const PersonalScreen = ({navigation}: PersonalScreenNavigationProp) => {
     navigation?.setOptions({tabBarStyle: {display: 'none'}});
   }, []);
   return (
-    <View style={{flex: 1, backgroundColor: theme?.layoutBg}}>
-      <Text style={{color: theme.textColor}}>Personal</Text>
-      <Button
-        onPress={() => {
-          navigation?.navigate('LoginScreen');
-        }}>
-        Go to Sign Up
-      </Button>
-    </View>
+    <LayoutStatusBar style={{flex: 1}}>
+      <View style={{flex: 1, backgroundColor: theme?.layoutBg}}>
+        <Text style={{color: theme.textColor}}>Personal</Text>
+        <Button
+          onPress={() => {
+            navigation?.navigate('LoginScreen');
+          }}>
+          Go to Sign Up
+        </Button>
+      </View>
+    </LayoutStatusBar>
   );
 };
 
