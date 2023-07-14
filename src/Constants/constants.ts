@@ -5,7 +5,7 @@ import {
 import TabNavigation from '../Navigator/TabNavigation';
 import ForgotPasswordScreen from '../Screens/ForgotPasswordScreen';
 import HomeScreen from '../Screens/HomeScreen';
-import LoginScreen from '../Screens/Login';
+import LoginScreen from '../Screens/Login/Login';
 import PersonalScreen from '../Screens/PersonalScreen';
 import RegisterScreen from '../Screens/RegisterScreen';
 import {IntroductionAnimationScreen} from '../Screens/introduction_animation';

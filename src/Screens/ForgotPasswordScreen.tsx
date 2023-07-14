@@ -1,19 +1,20 @@
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React, {memo, useState} from 'react';
 import {
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-  TouchableWithoutFeedback,
   Keyboard,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
 } from 'react-native';
-import TextInput from '../Utils/Components/TextInput';
-import Button from '../Utils/Components/Button';
-import {theme} from '../Core/Theme';
-import {emailValidator, responsiveHeight, responsiveWidth} from '../Utils/utis';
+import {useTheme} from '../Contexts/ThemeContexts/ThemeContexts';
 import {AppStackParamList} from '../Navigator/NavigatorDTO';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import Button from '../Utils/Components/Button';
 import {DefaultText} from '../Utils/Components/DefaultText';
+import TextInput from '../Utils/Components/TextInput';
+import {emailValidator, responsiveHeight, responsiveWidth} from '../Utils/utis';
+import styleTheme from './ThemeStyles';
 
 type Props = {
   navigation: NativeStackNavigationProp<
@@ -23,6 +24,8 @@ type Props = {
 };
 
 const ForgotPasswordScreen = ({navigation}: Props) => {
+  const {theme, toggleTheme} = useTheme();
+  const stylesTheme = styleTheme();
   const [email, setEmail] = useState({value: '', error: ''});
 
   const _onSendPressed = () => {
@@ -41,15 +44,17 @@ const ForgotPasswordScreen = ({navigation}: Props) => {
       <View
         style={{
           height: '100%',
-          backgroundColor: theme?.colors?.background,
+          backgroundColor: theme?.layoutBg,
           paddingHorizontal: responsiveWidth(15),
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <DefaultText>Forgot Password</DefaultText>
+        <DefaultText style={{color: theme.textColor}}>
+          Forgot Password
+        </DefaultText>
 
         <TextInput
-          label="E-mail address"
+          placeholder="E-mail address"
           returnKeyType="done"
           value={email.value}
           onChangeText={(text: string) => setEmail({value: text, error: ''})}
@@ -58,16 +63,22 @@ const ForgotPasswordScreen = ({navigation}: Props) => {
           autoCapitalize="none"
           textContentType="emailAddress"
           keyboardType="email-address"
+          style={stylesTheme?.textInputThemeStyle}
         />
 
-        <Button mode="contained" onPress={_onSendPressed} style={styles.button}>
+        <Button
+          mode="contained"
+          onPress={_onSendPressed}
+          style={{...styles.button, backgroundColor: theme.buttonColor}}>
           Send Reset Instructions
         </Button>
 
         <TouchableOpacity
           style={styles.back}
           onPress={() => navigation.navigate('LoginScreen')}>
-          <Text style={styles.label}>← Back to login</Text>
+          <Text style={[styles.label, {color: theme.textColor}]}>
+            ← Back to login
+          </Text>
         </TouchableOpacity>
       </View>
     </TouchableWithoutFeedback>
@@ -83,7 +94,6 @@ const styles = StyleSheet.create({
     marginTop: responsiveHeight(12),
   },
   label: {
-    color: theme.colors.secondary,
     width: '100%',
   },
 });

@@ -49,82 +49,79 @@ const RegisterScreen = ({navigation}: Props) => {
   };
 
   return (
-    <TouchableNoFeedBack onPress={Keyboard.dismiss}>
-      <LayoutStatusBar>
-        <View
+    <LayoutStatusBar>
+      <View
+        style={{
+          height: '100%',
+          backgroundColor: theme?.layoutBg,
+          paddingHorizontal: responsiveWidth(15),
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <DefaultText style={{color: theme.textColor}}>Register</DefaultText>
+        <TextInput
+          placeholder="Name"
+          returnKeyType="next"
+          value={name.value}
+          onChangeText={text => setName({value: text, error: ''})}
+          error={!!name.error}
+          errorText={name.error}
+          placeholderTextColor={theme.color}
           style={{
-            height: '100%',
-            backgroundColor: theme?.layoutBg,
-            paddingHorizontal: responsiveWidth(15),
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <DefaultText style={{color: theme.textColor}}>Register</DefaultText>
-          <TextInput
-            placeholder="Name"
-            returnKeyType="next"
-            value={name.value}
-            onChangeText={text => setName({value: text, error: ''})}
-            error={!!name.error}
-            errorText={name.error}
-            placeholderTextColor={theme.color}
-            style={{
-              ...textInputThemeStyle,
-              ...styles.textinputStyle,
-            }}
-          />
+            ...textInputThemeStyle,
+            ...styles.textinputStyle,
+          }}
+        />
 
-          <TextInput
-            placeholder="Email"
-            returnKeyType="next"
-            value={email.value}
-            onChangeText={text => setEmail({value: text, error: ''})}
-            error={!!email.error}
-            errorText={email.error}
-            autoCapitalize="none"
-            textContentType="emailAddress"
-            keyboardType="email-address"
-            placeholderTextColor={theme.color}
-            style={{
-              ...textInputThemeStyle,
-              ...styles.textinputStyle,
-            }}
-          />
+        <TextInput
+          placeholder="Email"
+          returnKeyType="next"
+          value={email.value}
+          onChangeText={text => setEmail({value: text, error: ''})}
+          error={!!email.error}
+          errorText={email.error}
+          autoCapitalize="none"
+          textContentType="emailAddress"
+          keyboardType="email-address"
+          placeholderTextColor={theme.color}
+          style={{
+            ...textInputThemeStyle,
+            ...styles.textinputStyle,
+          }}
+        />
 
-          <TextInput
-            placeholder="Password"
-            returnKeyType="done"
-            value={password.value}
-            onChangeText={text => setPassword({value: text, error: ''})}
-            error={!!password.error}
-            errorText={password.error}
-            secureTextEntry
-            placeholderTextColor={theme.color}
-            style={{
-              ...textInputThemeStyle,
-              ...styles.textinputStyle,
-            }}
-          />
+        <TextInput
+          placeholder="Password"
+          returnKeyType="done"
+          value={password.value}
+          onChangeText={text => setPassword({value: text, error: ''})}
+          error={!!password.error}
+          errorText={password.error}
+          secureTextEntry
+          placeholderTextColor={theme.color}
+          style={{
+            ...textInputThemeStyle,
+            ...styles.textinputStyle,
+          }}
+        />
 
-          <Button
-            mode="contained"
-            onPress={_onSignUpPressed}
-            style={styles.button}>
-            Sign Up
-          </Button>
+        <Button
+          mode="contained"
+          onPress={_onSignUpPressed}
+          style={styles.button}>
+          Sign Up
+        </Button>
 
-          <View style={styles.row}>
-            <Text style={{color: theme.textColor}}>
-              Already have an account?{' '}
-            </Text>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('LoginScreen')}>
-              <Text style={[styles.link, {color: theme.linkColor}]}>Login</Text>
-            </TouchableOpacity>
-          </View>
+        <View style={styles.row}>
+          <Text style={{color: theme.textColor}}>
+            Already have an account?{' '}
+          </Text>
+          <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
+            <Text style={[styles.link, {color: theme.linkColor}]}>Login</Text>
+          </TouchableOpacity>
         </View>
-      </LayoutStatusBar>
-    </TouchableNoFeedBack>
+      </View>
+    </LayoutStatusBar>
   );
 };
 
