@@ -19,6 +19,7 @@ import {
 import {useSwipe} from '../../Hooks/UseSwipe';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {AppStackParamList} from '../../Navigator/NavigatorDTO';
+import {useTheme} from '../../Contexts/ThemeContexts/ThemeContexts';
 
 type Props = {
   navigation: NativeStackNavigationProp<
@@ -30,6 +31,7 @@ type Props = {
 
 const IntroductionAnimationScreen = ({navigation}: Props) => {
   const window = useWindowDimensions();
+  const {theme} = useTheme();
 
   const [currentPage, setCurrentPage] = useState(0);
 
@@ -125,7 +127,7 @@ const IntroductionAnimationScreen = ({navigation}: Props) => {
 
   return (
     <View
-      style={{flex: 1, backgroundColor: 'rgb(245, 235, 226)'}}
+      style={{flex: 1, backgroundColor: theme.layoutBg}}
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}>
       <StatusBar barStyle={`${currentPage > 0 ? 'dark' : 'light'}-content`} />

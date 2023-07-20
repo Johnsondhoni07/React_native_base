@@ -2,6 +2,7 @@ import React, {useRef} from 'react';
 import {StyleSheet, Text, Animated} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import MyPressable from '../../../../Utils/Components/MyPressable';
+import {useTheme} from '../../../../Contexts/ThemeContexts/ThemeContexts';
 
 interface Props {
   onBtnPress: () => void;
@@ -20,6 +21,7 @@ const NextButtonArrow: React.FC<Props> = ({
   const arrowAnim = useRef<Animated.AnimatedInterpolation>(
     new Animated.Value(0),
   );
+  const {theme} = useTheme();
 
   arrowAnim.current = animationController.current.interpolate({
     inputRange: [0, 0.2, 0.4, 0.6, 0.8],
@@ -68,6 +70,7 @@ const NextButtonArrow: React.FC<Props> = ({
           width: widthAnim,
           borderRadius: radiusAnim,
           marginBottom: marginBottomAnim,
+          backgroundColor: theme.buttonColor,
         },
       ]}>
       <MyPressable
@@ -96,7 +99,7 @@ const NextButtonArrow: React.FC<Props> = ({
           ]}
           name="arrow-forward-ios"
           size={24}
-          color="white"
+          color={theme.buttonText}
         />
       </MyPressable>
     </Animated.View>

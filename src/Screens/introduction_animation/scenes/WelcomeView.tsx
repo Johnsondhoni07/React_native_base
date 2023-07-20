@@ -1,6 +1,8 @@
 import React, {useRef} from 'react';
 import {StyleSheet, Text, Animated, useWindowDimensions} from 'react-native';
 import {AppImages} from '../../../Assets';
+import {useTheme} from '../../../Contexts/ThemeContexts/ThemeContexts';
+import {DefaultText} from '../../../Utils/Components/DefaultText';
 
 interface Props {
   animationController: React.MutableRefObject<Animated.Value>;
@@ -11,6 +13,7 @@ const IMAGE_HEIGHT = 350;
 
 const WelcomeView: React.FC<Props> = ({animationController}) => {
   const window = useWindowDimensions();
+  const {theme} = useTheme();
 
   const careRef = useRef<Text | null>(null);
 
@@ -39,13 +42,23 @@ const WelcomeView: React.FC<Props> = ({animationController}) => {
         source={AppImages.welcome}
       />
       <Animated.Text
-        style={[styles.title, {transform: [{translateX: welcomeTextAnim}]}]}
+        style={[
+          styles.title,
+          {
+            color: theme?.textColor,
+            transform: [{translateX: welcomeTextAnim}],
+          },
+        ]}
         ref={careRef}>
         Welcome
       </Animated.Text>
-      <Text style={styles.subtitle}>
+      <DefaultText
+        style={{
+          color: theme?.textColor,
+          ...styles.subtitle,
+        }}>
         Stay organised and live stress-free with you-do app
-      </Text>
+      </DefaultText>
     </Animated.View>
   );
 };
@@ -63,13 +76,11 @@ const styles = StyleSheet.create({
     maxHeight: IMAGE_HEIGHT,
   },
   title: {
-    color: 'black',
     fontSize: 26,
     textAlign: 'center',
     fontFamily: 'WorkSans-Bold',
   },
   subtitle: {
-    color: 'black',
     textAlign: 'center',
     fontFamily: 'WorkSans-Regular',
     paddingHorizontal: 64,

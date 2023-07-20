@@ -1,9 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, Animated, StatusBar } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import {StyleSheet, Text, Animated, StatusBar} from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import MyPressable from '../../../Utils/Components/MyPressable';
-import { isIos } from '../../../Utils/utis';
+import {isIos} from '../../../Utils/utis';
+import {useTheme} from '../../../Contexts/ThemeContexts/ThemeContexts';
 
 interface Props {
   onBackClick: () => void;
@@ -16,7 +17,8 @@ const TopBackSkipView: React.FC<Props> = ({
   onSkipClick,
   animationController,
 }) => {
-  const { top } = useSafeAreaInsets();
+  const {top} = useSafeAreaInsets();
+  const {theme} = useTheme();
   const marginTop = isIos ? top : StatusBar.currentHeight;
 
   const headerTranslateY = animationController.current.interpolate({
@@ -32,23 +34,21 @@ const TopBackSkipView: React.FC<Props> = ({
     <Animated.View
       style={[
         styles.buttonContainer,
-        { marginTop, transform: [{ translateY: headerTranslateY }] },
-      ]}
-    >
+        {marginTop, transform: [{translateY: headerTranslateY}]},
+      ]}>
       <MyPressable
         style={styles.backBtn}
-        android_ripple={{ color: 'darkgrey', borderless: true, radius: 28 }}
-        onPress={() => onBackClick()}
-      >
-        <Icon name="arrow-back-ios" size={24} color="black" />
+        android_ripple={{color: 'darkgrey', borderless: true, radius: 28}}
+        onPress={() => onBackClick()}>
+        <Icon name="arrow-back-ios" size={24} color={theme.buttonColor} />
       </MyPressable>
 
-      <Animated.View style={{ transform: [{ translateX: skipAnim }] }}>
+      <Animated.View style={{transform: [{translateX: skipAnim}]}}>
         <MyPressable
-          android_ripple={{ color: 'darkgrey', borderless: true, radius: 28 }}
-          onPress={() => onSkipClick()}
-        >
-          <Text style={{ color: 'black', fontFamily: 'WorkSans-Regular' }}>
+          android_ripple={{color: 'darkgrey', borderless: true, radius: 28}}
+          onPress={() => onSkipClick()}>
+          <Text
+            style={{color: theme.textColor, fontFamily: 'WorkSans-Regular'}}>
             Skip
           </Text>
         </MyPressable>

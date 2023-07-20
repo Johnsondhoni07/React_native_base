@@ -3,6 +3,8 @@ import {StyleSheet, Text, Animated} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import NextButtonArrow from './components/NextButtonArrow';
 import MyPressable from '../../../Utils/Components/MyPressable';
+import {useTheme} from '../../../Contexts/ThemeContexts/ThemeContexts';
+import {DefaultText} from '../../../Utils/Components/DefaultText';
 
 interface Props {
   onNextClick: () => void;
@@ -16,7 +18,7 @@ interface DotIndicatorProps {
 }
 const DotIndicator: React.FC<DotIndicatorProps> = ({index, selectedIndex}) => {
   const activeIndexRef = useRef(new Animated.Value(0));
-
+  const {theme} = useTheme();
   useEffect(() => {
     Animated.timing(activeIndexRef.current, {
       toValue: index === selectedIndex ? 1 : 0,
@@ -27,7 +29,7 @@ const DotIndicator: React.FC<DotIndicatorProps> = ({index, selectedIndex}) => {
 
   const bgColor = activeIndexRef.current.interpolate({
     inputRange: [0, 1],
-    outputRange: ['#E3E4E4', '#132137'],
+    outputRange: ['#E3E4E4', theme.buttonColor],
   });
 
   return (
@@ -42,6 +44,7 @@ const CenterNextButton: React.FC<Props> = ({
 }) => {
   const opacity = useRef<Animated.Value>(new Animated.Value(0));
   const currentOpacity = useRef<number>(0);
+  const {theme} = useTheme();
 
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -110,11 +113,14 @@ const CenterNextButton: React.FC<Props> = ({
           styles.footerTextContainer,
           {transform: [{translateY: loginTextMoveAnimation}]},
         ]}>
-        <Text style={{color: 'grey', fontFamily: 'WorkSans-Regular'}}>
+        <DefaultText
+          style={{color: theme.buttonText, fontFamily: 'WorkSans-Regular'}}>
           Already have an account?{' '}
-        </Text>
+        </DefaultText>
         <MyPressable onPress={navigateToLogin}>
-          <Text style={styles.loginText}>Login</Text>
+          <DefaultText style={{...styles.loginText, color: theme.textColor}}>
+            Login
+          </DefaultText>
         </MyPressable>
       </Animated.View>
     </Animated.View>

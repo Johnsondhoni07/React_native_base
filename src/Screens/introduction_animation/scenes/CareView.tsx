@@ -1,6 +1,8 @@
-import React, { useRef } from 'react';
-import { StyleSheet, Text, Animated, useWindowDimensions } from 'react-native';
-import { AppImages } from '../../../Assets';
+import React, {useRef} from 'react';
+import {StyleSheet, Text, Animated, useWindowDimensions} from 'react-native';
+import {AppImages} from '../../../Assets';
+import {useTheme} from '../../../Contexts/ThemeContexts/ThemeContexts';
+import {DefaultText} from '../../../Utils/Components/DefaultText';
 
 interface Props {
   animationController: React.MutableRefObject<Animated.Value>;
@@ -9,8 +11,9 @@ interface Props {
 const IMAGE_WIDTH = 350;
 const IMAGE_HEIGHT = 250;
 
-const CareView: React.FC<Props> = ({ animationController }) => {
+const CareView: React.FC<Props> = ({animationController}) => {
   const window = useWindowDimensions();
+  const {theme} = useTheme();
 
   const careRef = useRef<Text | null>(null);
 
@@ -33,22 +36,30 @@ const CareView: React.FC<Props> = ({ animationController }) => {
 
   return (
     <Animated.View
-      style={[styles.container, { transform: [{ translateX: slideAnim }] }]}
-    >
+      style={[styles.container, {transform: [{translateX: slideAnim}]}]}>
       <Animated.Image
-        style={[styles.image, { transform: [{ translateX: imageAnim }] }]}
+        style={[styles.image, {transform: [{translateX: imageAnim}]}]}
         source={AppImages.care_image}
       />
       <Animated.Text
-        style={[styles.title, { transform: [{ translateX: careAnim }] }]}
-        ref={careRef}
-      >
+        style={[
+          styles.title,
+          {
+            color: theme?.textColor,
+            transform: [{translateX: careAnim}],
+          },
+        ]}
+        ref={careRef}>
         Care
       </Animated.Text>
-      <Text style={styles.subtitle}>
+      <DefaultText
+        style={{
+          color: theme?.textColor,
+          ...styles.subtitle,
+        }}>
         Lorem ipsum dolor sit amet,consectetur adipiscing elit,sed do eiusmod
         tempor incididunt ut labore
-      </Text>
+      </DefaultText>
     </Animated.View>
   );
 };
@@ -66,13 +77,11 @@ const styles = StyleSheet.create({
     maxHeight: IMAGE_HEIGHT,
   },
   title: {
-    color: 'black',
     fontSize: 26,
     textAlign: 'center',
     fontFamily: 'WorkSans-Bold',
   },
   subtitle: {
-    color: 'black',
     textAlign: 'center',
     fontFamily: 'WorkSans-Regular',
     paddingHorizontal: 64,

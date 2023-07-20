@@ -1,26 +1,27 @@
 import React from 'react';
 import {
+  Animated,
+  Image,
+  ScrollView,
   StyleSheet,
   View,
-  Text,
-  Image,
-  Animated,
   useWindowDimensions,
-  ScrollView,
 } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { AppImages } from '../../../Assets';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {AppImages} from '../../../Assets';
+import {useTheme} from '../../../Contexts/ThemeContexts/ThemeContexts';
+import {DefaultText} from '../../../Utils/Components/DefaultText';
 import MyPressable from '../../../Utils/Components/MyPressable';
-
 
 interface Props {
   onNextClick: () => void;
   animationController: React.MutableRefObject<Animated.Value>;
 }
 
-const SplashView: React.FC<Props> = ({ onNextClick, animationController }) => {
+const SplashView: React.FC<Props> = ({onNextClick, animationController}) => {
   const window = useWindowDimensions();
   const insets = useSafeAreaInsets();
+  const {theme} = useTheme();
 
   const splashTranslateY = animationController.current.interpolate({
     inputRange: [0, 0.2, 0.8],
@@ -31,9 +32,8 @@ const SplashView: React.FC<Props> = ({ onNextClick, animationController }) => {
 
   return (
     <Animated.View
-      style={{ flex: 1, transform: [{ translateY: splashTranslateY }] }}
-    >
-      <ScrollView style={{ flexGrow: 0 }} alwaysBounceVertical={false}>
+      style={{flex: 1, transform: [{translateY: splashTranslateY}]}}>
+      <ScrollView style={{flexGrow: 0}} alwaysBounceVertical={false}>
         <View>
           <Image
             style={{
@@ -46,22 +46,26 @@ const SplashView: React.FC<Props> = ({ onNextClick, animationController }) => {
             source={AppImages.introduction_image}
           />
         </View>
-        <Text style={styles.title}>Clearhead</Text>
-        <Text style={styles.subtitle}>
+        <DefaultText style={{...styles.title, color: theme.textColor}}>
+          Clearhead
+        </DefaultText>
+        <DefaultText style={{...styles.subtitle, color: theme.textColor}}>
           Lorem ipsum dolor sit amet,consectetur{'\n'}adipiscing elit,sed do
           eiusmod tempor{'\n'}incididunt ut labore
-        </Text>
+        </DefaultText>
       </ScrollView>
 
-      <View style={[styles.footer, { paddingBottom: 8 + insets.bottom }]}>
+      <View style={[styles.footer, {paddingBottom: 8 + insets.bottom}]}>
         <View style={styles.buttonContainer}>
           <MyPressable
-            style={styles.button}
-            android_ripple={{ color: 'powderblue' }}
+            style={{...styles.button, backgroundColor: theme.buttonColor}}
+            android_ripple={{color: 'powderblue'}}
             touchOpacity={0.6}
-            onPress={() => onNextClick()}
-          >
-            <Text style={styles.buttonText}>Let's begin</Text>
+            onPress={() => onNextClick()}>
+            <DefaultText
+              style={{...styles.buttonText, color: theme.buttonText}}>
+              Let's begin
+            </DefaultText>
           </MyPressable>
         </View>
       </View>

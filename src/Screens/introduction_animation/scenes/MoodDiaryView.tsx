@@ -1,6 +1,8 @@
-import React, { useRef } from 'react';
-import { StyleSheet, Text, Animated, useWindowDimensions } from 'react-native';
-import { AppImages } from '../../../Assets';
+import React, {useRef} from 'react';
+import {StyleSheet, Text, Animated, useWindowDimensions} from 'react-native';
+import {AppImages} from '../../../Assets';
+import {useTheme} from '../../../Contexts/ThemeContexts/ThemeContexts';
+import {DefaultText} from '../../../Utils/Components/DefaultText';
 
 interface Props {
   animationController: React.MutableRefObject<Animated.Value>;
@@ -9,8 +11,9 @@ interface Props {
 const IMAGE_WIDTH = 350;
 const IMAGE_HEIGHT = 250;
 
-const MoodDiaryView: React.FC<Props> = ({ animationController }) => {
+const MoodDiaryView: React.FC<Props> = ({animationController}) => {
   const window = useWindowDimensions();
+  const {theme} = useTheme();
 
   const careRef = useRef<Text | null>(null);
 
@@ -33,19 +36,28 @@ const MoodDiaryView: React.FC<Props> = ({ animationController }) => {
 
   return (
     <Animated.View
-      style={[styles.container, { transform: [{ translateX: slideAnim }] }]}
-    >
-      <Text style={styles.title} ref={careRef}>
+      style={[styles.container, {transform: [{translateX: slideAnim}]}]}>
+      <DefaultText
+        style={{
+          color: theme?.textColor,
+          ...styles.title,
+        }}
+        ref={careRef}>
         Mood Dairy
-      </Text>
+      </DefaultText>
       <Animated.Text
-        style={[styles.subtitle, { transform: [{ translateX: textAnim }] }]}
-      >
+        style={[
+          styles.subtitle,
+          {
+            color: theme?.textColor,
+            transform: [{translateX: textAnim}],
+          },
+        ]}>
         Lorem ipsum dolor sit amet,consectetur adipiscing elit,sed do eiusmod
         tempor incididunt ut labore
       </Animated.Text>
       <Animated.Image
-        style={[styles.image, { transform: [{ translateX: imageAnim }] }]}
+        style={[styles.image, {transform: [{translateX: imageAnim}]}]}
         source={AppImages.mood_dairy_image}
       />
     </Animated.View>
@@ -61,13 +73,11 @@ const styles = StyleSheet.create({
     paddingBottom: 100,
   },
   title: {
-    color: 'black',
     fontSize: 26,
     textAlign: 'center',
     fontFamily: 'WorkSans-Bold',
   },
   subtitle: {
-    color: 'black',
     textAlign: 'center',
     fontFamily: 'WorkSans-Regular',
     paddingHorizontal: 64,
