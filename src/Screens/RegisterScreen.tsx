@@ -22,7 +22,6 @@ type Props = {
 };
 
 const RegisterScreen = ({navigation}: Props) => {
-  
   const {theme} = useTheme();
   const [name, setName] = useState({value: '', error: ''});
   const [email, setEmail] = useState({value: '', error: ''});
